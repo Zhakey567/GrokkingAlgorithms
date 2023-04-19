@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace GrokkingAlgorithms
 {
@@ -6,32 +8,29 @@ namespace GrokkingAlgorithms
     {
         static void Main(string[] args)
         {
-            var arr = new int[] { 1, 1, 0, 1, 1, 1 };
-            var a = FindMaxConsecutiveOnes(arr);
-            Console.WriteLine(a);
+            var arr = new int[] { 1, 2, 6, 7, 9, 10, 12, 15, 16, 19, 20, 26 };
+            Console.WriteLine(BinarySearch(arr, 7));
+            Console.WriteLine(BinarySearch(arr, 16));
         }
 
-        public static int FindMaxConsecutiveOnes(int[] nums)
+        static int BinarySearch(int[] arr, int item)
         {
-            var count = 0;
-            var maxCount = 0;
-            for (var i = 0; i < nums.Length; i++)
+            int low = 0;
+            int high = arr.Length - 1;
+            while (low <= high)
             {
-                if (nums[i] == 1)
-                    count++;
-                else if (count > maxCount)
-                {
-                    maxCount = count;
-                    count = 0;
-                }
+                int mid = (low + high) / 2;
+                if (item == arr[mid])
+                    return mid + 1;
+                int guess = arr[mid];
+                if (guess < item)
+                    low = mid + 1;
                 else
-                    count = 0;
-                if (i == nums.Length - 1 && count > maxCount)
                 {
-                    maxCount = count;
+                    high = mid - 1; 
                 }
             }
-            return maxCount;
-        }//1 1 0 1 1 1
+            return -1;
+        }
     }
 }
